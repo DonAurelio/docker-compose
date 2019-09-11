@@ -1,0 +1,19 @@
+version: '3'
+services:
+  # WEB SERVICES
+  cube_db:
+    image: postgres
+    restart: on-failure
+    environment:
+      - POSTGRES_DB=datacube
+      - POSTGRES_USER=datacube
+      - POSTGRES_PASSWORD=datacube
+
+  cube:
+    image: donaurelio/open-datacube:1.6.1-base
+    restart: on-failure
+    tty: true
+    volumes:
+      - ./data:/home/cube/data
+    # To keep container alive
+    command: tail -F /home/cube/.datacube.conf
