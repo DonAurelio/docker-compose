@@ -1,45 +1,37 @@
 # Open Datacube as a Multi-Container Application
 
-On this section, we will prepare an OpenDatacube environment to perform image processing and analysis. For this purpose we will use a Docker container.
+On this section, we will prepare the OpenDatacube environment to perform image processing and analysis. This multi-container applications comprise two containers:
 
-Requirements:
-* docker
-* docker-compose
+* cube_db: The database used for the OpenDatacube API to index satellite imaginery.
+* cube: The container with a ready to use OpenDatacube 1.6.1 and Python 3.6.
 
-## Install Docker and Docker Compose
+## Set Up
 
-```sh 
-sudo apt-get update
-sudo apt-get install docker.io
-sudo groupadd docker
-sudo usermod -aG docker $USER
-sudo reboot now
-sudo apt-get install python-pip
-pip install docker-compose
-```
-
-## Set Up Datacube Environment
-
-Pull the datacube Docker Image from [Dockerhub](https://hub.docker.com/r/opendatacube/datacube-core) as depicted below.
+Clone this repository and get into the **open-datacube** foder using the following command
 
 ```sh 
 git clone https://github.com/DonAurelio/docker-compose.git && cd docker-compose/open-datacube
 ```
 
-Start database and datacube containers
+Start containers
 
 ```sh
-docker-compose up -d cube_db
-docker-compose up -d cube
+docker-compose up -d 
 ```
 
-Get into the container shell
+Inspect runnig containes
+
+```sh
+docker-compose ps
+```
+
+Get into the **cube** container
 
 ```sh
 docker-compose exec cube bash
 ```
 
-Exit the container
+Exit within the container
 
 ```sh
 exit
@@ -62,9 +54,3 @@ Destroy containers
 ```sh
 docker-compose down -v --remove-orphans
 ```
-
-# Open Datacube Container
-
-# Todo
-
-* add this variable automatically `PATH=/home/cube/.local/bin:$PATH`. The user need to add this variable o be able to use the binaries installed with `pip`.

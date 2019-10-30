@@ -8,8 +8,8 @@ This repository contains a set of ready to use docker-compose files to deploy mu
 
 To deploy a multi-container application using the one of the following files, you need to install Docker and Docker Componse.
 
-1. Airflow: A Python API to programmatically author, schedule and monitor workflows in Python.
-2. Open Datacube: A Python API and a set of GIS libraries to enable the storage and query of satellity imaginery data.
+1. [Apache Airflow](https://github.com/DonAurelio/docker-compose/tree/master/airflow): A Python API to programmatically author, schedule and monitor workflows in Python.
+2. [Open Datacube](https://github.com/DonAurelio/docker-compose/tree/master/open-datacube): A Python API and a set of GIS libraries to enable the storage and query of satellity imaginery data.
 
 ## Install Docker and Docker Compose
 
