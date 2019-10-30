@@ -4,14 +4,14 @@ Docker compose enables the **orchestration** of multiple containers using a sing
 
 This repository contains a set of ready to use docker-compose files to deploy multi-container applications for scientific purposes.
 
-## Content
+### Content
 
 To deploy a multi-container application using the one of the following files, you need to install Docker and Docker Componse.
 
 1. [Apache Airflow](https://github.com/DonAurelio/docker-compose/tree/master/airflow): A Python API to programmatically author, schedule and monitor workflows in Python.
 2. [Open Datacube](https://github.com/DonAurelio/docker-compose/tree/master/open-datacube): A Python API and a set of GIS libraries to enable the storage and query of satellity imaginery data.
 
-## Install Docker and Docker Compose
+### Install Docker and Docker Compose
 
 
 Update the source list
