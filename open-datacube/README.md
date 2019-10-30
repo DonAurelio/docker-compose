@@ -5,7 +5,7 @@ On this section, we will prepare the OpenDatacube environment to perform image p
 * cube_db: The database used for the OpenDatacube API to index satellite imaginery.
 * cube: The container with a ready to use OpenDatacube 1.6.1 and Python 3.6.
 
-## Set Up
+### Setting Up
 
 Clone this repository and get into the **open-datacube** foder using the following command
 
