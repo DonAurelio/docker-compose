@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=airflow
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=airflow
+      - RABBITMQ_DEFAULT_PASS=airflow
+      - RABBITMQ_DEFAULT_VHOST=airflow
+
+    ports: 
+      # admin gui
+      - 8020:15672
+      # queue 
+      - 8021:5672
+
+  master:
+    user: airflow:1000
+    image: apache/airflow:latest
+    restart: always
+    command: |
+      bash -c "rm -rf /home/airflow/airflow/{*.out,*.pid,*.py,*.err,*.log} unittests.cfg logs \
+      && airflow db init \
+      && airflow users create \
+              --username admin \
+              --firstname Peter \
+              --lastname Parker \
+              --role Admin \
+              --email spiderman@superhero.org \
+              --password admin \
+      && airflow webserver -D \
+      && airflow celery flower -D \
+      && airflow scheduler"
+    environment:
+      - AIRFLOW_HOME=/home/airflow/airflow
+      - C_FORCE_ROOT=true
+    volumes:
+      - ./airflow:/home/airflow/airflow/
+    ports:
+      # airflow web server
+      - 8080:8080
+      # flower
+      - 5555:5555
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  # worker:
+  #   image: apache/airflow:latest
+  #   restart: always
+  #   command: airflow celery worker
+  #   environment:
+  #     - AIRFLOW_HOME=/home/airflow/airflow
+  #     - C_FORCE_ROOT=true
+  #   volumes:
+  #     - ./airflow:/home/airflow
+
+  #   depends_on:
+  #     - postgres
+  #     - rabbitmq
+  #     - redis
+
+
+
