@@ -29,7 +29,7 @@ services:
     image: apache/airflow:latest
     restart: always
     command: |
-      bash -c "rm -rf /home/airflow/airflow/{*.out,*.pid,*.py,*.err,*.log} unittests.cfg logs \
+      bash -c "rm -rf /home/airflow/airflow/{*.out,*.pid,*.py,*.err,*.log,airflow} unittests.cfg logs \
       && airflow db init \
       && airflow users create \
               --username admin \
@@ -45,7 +45,7 @@ services:
       - AIRFLOW_HOME=/home/airflow/airflow
       - C_FORCE_ROOT=true
     volumes:
-      - ./airflow:/home/airflow/airflow/
+      - ./airflow:/home/airflow/airflow
     ports:
       # airflow web server
       - 8080:8080
@@ -55,20 +55,20 @@ services:
       - postgres
       - rabbitmq
 
-  # worker:
-  #   image: apache/airflow:latest
-  #   restart: always
-  #   command: airflow celery worker
-  #   environment:
-  #     - AIRFLOW_HOME=/home/airflow/airflow
-  #     - C_FORCE_ROOT=true
-  #   volumes:
-  #     - ./airflow:/home/airflow
-
-  #   depends_on:
-  #     - postgres
-  #     - rabbitmq
-  #     - redis
+  worker:
+    image: apache/airflow:latest
+    user: airflow:1000
+    restart: always
+    command: bash -c "airflow celery worker"
+    environment:
+      - AIRFLOW_HOME=/home/airflow/airflow
+      - C_FORCE_ROOT=true
+    volumes:
+      - ./airflow:/home/airflow/airflow
+    depends_on:
+      - postgres
+      - rabbitmq
+      - master
 
 
 
