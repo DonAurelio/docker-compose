@@ -1,6 +1,7 @@
 logs
 unittests.cfg
 webserver_config.py
+.ipynb_checkpoints
 *.out
 *.pid
 *.err

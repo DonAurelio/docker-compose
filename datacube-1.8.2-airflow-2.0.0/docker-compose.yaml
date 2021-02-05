@@ -2,6 +2,14 @@ version: '3'
 
 services:
 
+  postgis:
+    image: postgis/postgis:10-2.5
+    restart: on-failure
+    environment:
+      - POSTGRES_DB=datacube
+      - POSTGRES_USER=datacube
+      - POSTGRES_PASSWORD=datacube
+
   postgres:
     image: postgres
     restart: always
@@ -27,21 +35,35 @@ services:
   master:
     image: donaurelio/datacube:1.8.2-airflow-2.0.0
     restart: always
-    command: bash /home/datacube/airflow/entrypoint.sh
+    command: bash /home/datacube/entrypoint.sh
     environment:
       - PATH=$PATH:/home/datacube/.local/bin
       - AIRFLOW_HOME=/home/datacube/airflow
       - C_FORCE_ROOT=true
+      # open data cube specific variables
+      - DB_DATABASE=datacube 
+      - DB_HOSTNAME=postgis 
+      - DB_USERNAME=datacube 
+      - DB_PASSWORD=datacube 
     volumes:
+      - ./entrypoint.sh:/home/datacube/entrypoint.sh
       - ./airflow:/home/datacube/airflow
+      # open data cube specific volumes
+      - ./products:/home/datacube/products
+      - ./datacube_storage/analysis_storage:/analysis_storage
+      - ./datacube_storage/indexed_storage:/indexed_storage
+      - ./datacube_storage/download_storage:/download_storage
     ports:
       # airflow web server
       - 8080:8080
       # flower
       - 5555:5555
+      # open data cube jupyter
+      - 8081:8081
     depends_on:
       - postgres
       - rabbitmq
+      - postgis
 
   worker:
     image: donaurelio/datacube:1.8.2-airflow-2.0.0

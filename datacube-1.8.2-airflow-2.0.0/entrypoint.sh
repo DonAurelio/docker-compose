@@ -31,4 +31,8 @@ airflow webserver -D &
 
 airflow celery flower -D &
 
-airflow scheduler
+airflow scheduler -D &
+
+cd  /home/datacube
+
+jupyter-lab --no-browser --LabApp.token='' --port=8081 --ip=0.0.0.0 --allow-root
