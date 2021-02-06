@@ -1,1 +1,3 @@
 datacube_storage
+.ipynb_checkpoints/
+__pycache__/
