@@ -7,7 +7,7 @@ def query(product,longitude, latitude, time, measurements, crs, output_crs, reso
     # Create task execution results directory
     airflow_dag_id = os.environ['AIRFLOW_CTX_DAG_ID']
     airflow_task_id = os.environ['AIRFLOW_CTX_TASK_ID']
-    results_path = os.path.join('/analysis_storage',airflow_dag_id,airflow_task_id)
+    results_path = os.path.join('/analysis_storage',airflow_dag_id,'query')
     os.makedirs(name=results_path, exist_ok=True)
     
     # Perform the task
