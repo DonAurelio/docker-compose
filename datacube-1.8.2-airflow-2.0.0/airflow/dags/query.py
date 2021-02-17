@@ -1,8 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import datacube
+import os
 
-def query(product,longitude, latitude, time, measurements, crs, output_crs, resolution):
+def query(product,longitude, latitude, time, measurements, crs, output_crs, resolution,**kwargs):
+    # Create task execution results directory
+    airflow_dag_id = os.environ['AIRFLOW_CTX_DAG_ID']
+    airflow_task_id = os.environ['AIRFLOW_CTX_TASK_ID']
+    results_path = os.path.join('/analysis_storage',airflow_dag_id,airflow_task_id)
+    os.makedirs(name=results_path, exist_ok=True)
+    
+    # Perform the task
     dc = datacube.Datacube(app="query")
     dataset = dc.load(
         product=product,
@@ -15,15 +23,8 @@ def query(product,longitude, latitude, time, measurements, crs, output_crs, reso
         resolution=resolution
     )
     
-    dataset.to_netcdf('dataset.nc')
-
-query(
-    product='ls8_collections_sr_scene',
-    longitude=(-73, -72),
-    latitude=(4, 5),
-    time=('2020-12-12','2020-12-12'),
-    measurements=['red','blue','green'],
-    crs='EPSG:4326',
-    output_crs='EPSG:4326',
-    resolution=(-0.00008983111,0.00008971023)
-)
+    file_name = airflow_task_id + '.nc'
+    file_path = os.path.join(results_path,file_name)
+    
+    del dataset.time.attrs['units']
+    dataset.to_netcdf(file_path)
