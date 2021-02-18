@@ -21,7 +21,7 @@ query_kwargs ={
     'longitude': (-73, -71),
     'latitude': (4, 6),
     'time': ('2020-12-12','2020-12-12'),
-    'measurements': ['red','blue','green'],
+    'measurements': ['red','blue','green','pixel_qa'],
     'crs': 'EPSG:4326',
     'output_crs': 'EPSG:4326',
     'resolution': (-0.00008983111,0.00008971023)
@@ -38,7 +38,7 @@ for latitude in range(lat_min,lat_max):
             'longitude': (longitude, longitude + 1),
             'latitude': (latitude, latitude + 1),
             'time': ('2020-12-12','2020-12-12'),
-            'measurements': ['red','blue','green'],
+            'measurements': ['red','blue','green','pixel_qa'],
             'crs': 'EPSG:4326',
             'output_crs': 'EPSG:4326',
             'resolution': (-0.00008983111,0.00008971023)
