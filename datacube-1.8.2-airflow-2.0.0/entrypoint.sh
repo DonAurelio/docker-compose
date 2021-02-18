@@ -17,6 +17,8 @@ trap 'cleanup' SIGTERM
 
 #Execute a command
 
+sudo chown -R datacube:datacube /home/datacube/airflow
+
 airflow db init
 
 airflow users create \

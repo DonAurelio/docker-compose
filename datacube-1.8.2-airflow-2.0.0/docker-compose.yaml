@@ -73,8 +73,18 @@ services:
       - PATH=$PATH:/home/datacube/.local/bin
       - AIRFLOW_HOME=/home/datacube/airflow
       - C_FORCE_ROOT=true
+      # open data cube specific variables
+      - DB_DATABASE=datacube
+      - DB_HOSTNAME=postgis
+      - DB_USERNAME=datacube
+      - DB_PASSWORD=datacube
     volumes:
       - ./airflow:/home/datacube/airflow
+      # open data cube specific volumes
+      - ./products:/home/datacube/products
+      - ./datacube_storage/analysis_storage:/analysis_storage
+      - ./datacube_storage/indexed_storage:/indexed_storage
+      - ./datacube_storage/download_storage:/download_storage
     depends_on:
       - postgres
       - rabbitmq
