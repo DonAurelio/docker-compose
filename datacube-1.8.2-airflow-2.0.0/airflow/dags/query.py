@@ -7,6 +7,7 @@ import numpy as np
 
 from cloud_mask import landsat_qa_clean_mask
 from cloud_mask import landsat_clean_mask_invalid
+from common import write_geotiff_from_xr
 
 def query(product,longitude, latitude, time, measurements, crs, output_crs, resolution,**kwargs):
     # Create task execution results directory
@@ -45,3 +46,6 @@ def query(product,longitude, latitude, time, measurements, crs, output_crs, reso
     del dataset.pixel_qa.attrs['flags_definition']
     
     dataset.to_netcdf(file_path)
+       
+    task_instance = kwargs['task_instance']
+    task_instance.xcom_push('dataset_file_path',file_path)
